@@ -68,11 +68,9 @@ The application will open automatically in your browser.
 
 ## 🧠 Model Notes (Important)
 
-- Both **MobileNetV3-Large** and **ResNet18** use **ImageNet-pretrained backbones**
+- Both **MobileNetV3-Large** and **ResNet-18** use **ImageNet-pretrained backbones**
 - Only the **final classification layers** were fine-tuned on the seed dataset
 - This design ensures stable inference while keeping checkpoints lightweight
-
-**Academic statement you may use:**
 
 > *Both MobileNetV3-Large and ResNet18 use ImageNet-pretrained backbones, while only the final classification layers were fine-tuned on the target dataset.*
 
@@ -86,16 +84,6 @@ The application will open automatically in your browser.
   - Academic demos
   - Student projects
   - Streamlit Cloud deployment
-
----
-
-## 🚀 Possible Extensions
-
-- Grad-CAM visual explanations
-- Top-3 predictions
-- Confidence donut / gauge charts
-- TR / Latin language toggle
-- Streamlit Cloud deployment
 
 ---
 
