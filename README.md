@@ -1,18 +1,18 @@
-# 🌳 Tree Species Classification – Streamlit App
+# 🌳 Seed Species Classification – Streamlit App
 
-This Streamlit application performs **tree species classification** from images using deep learning models.
+This Streamlit application performs **seed species classification** from images using deep learning models.
 
 The app supports **two trained CNN architectures**:
 - **MobileNetV3-Large**
 - **ResNet18**
 
 Users can upload an image, select a model, and obtain:
-- The **predicted tree species**
+- The **predicted seed species**
 - **Class probability distribution** visualized as a bar chart
 
 ---
 
-## 🌲 Supported Tree Species (TR + Latin)
+## 🌲 Supported Seed Species (TR + Latin)
 
 - **Akasya (Acacia)**
 - **Erguvan (Cercis siliquastrum)**
@@ -69,7 +69,7 @@ The application will open automatically in your browser.
 ## 🧠 Model Notes (Important)
 
 - Both **MobileNetV3-Large** and **ResNet18** use **ImageNet-pretrained backbones**
-- Only the **final classification layers** were fine-tuned on the tree dataset
+- Only the **final classification layers** were fine-tuned on the seed dataset
 - This design ensures stable inference while keeping checkpoints lightweight
 
 **Academic statement you may use:**
