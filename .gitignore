@@ -1,0 +1,26 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+
+# Envs
+.env
+venv/
+.env*
+
+# Editor
+.vscode/
+.idea/
+.DS_Store
+
+# Model/checkpoints and large binaries
+*.pt
+*.pth
+models/*.pt
+models/*.pth
+
+# Byte-compiled / logs
+*.log
+
+# Jupyter
+.ipynb_checkpoints/
