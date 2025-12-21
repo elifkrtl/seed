@@ -1,23 +1,21 @@
 # 🌳 Seed Species Classification – Streamlit App
 
-This Streamlit application performs **seed species classification** from images using deep learning models.
+This Streamlit application performs **seed species classification** from images using the MobileNetV3-Large deep learning model.
 
-The app supports **two trained CNN architectures**:
-- **MobileNetV3-Large**
-- **ResNet18**
+The app uses a **fine-tuned MobileNetV3-Large model** trained on seed images.
 
-Users can upload an image, select a model, and obtain:
+Users can upload an image and obtain:
 - The **predicted seed species**
 - **Class probability distribution** visualized as a bar chart
 
 ---
 
-## 🌲 Supported Seed Species (TR + Latin)
+## 🌲 Supported Seed Species (Latin)
 
-- **Akasya (Acacia)**
-- **Erguvan (Cercis siliquastrum)**
-- **Gladiçya (Gleditsia triacanthos)**
-- **Keçiboynuzu (Ceratonia siliqua)**
+- **Cercis siliquastrum**
+- **Ceratonia siliqua**
+- **Gleditsia triacanthos**
+- **Robinia pseudoacacia**
 
 ---
 
@@ -29,9 +27,12 @@ seed/
 ├── app.py
 ├── requirements.txt
 ├── README.md
+├── cercis_siliquastrum.jpg
+├── ceratonia_siliqua.jpg
+├── gleditsia_triacanthos.jpg
+├── robin_pseudoacacia.jpg
 └── models/
-    ├── mobilenetv3_large_best.pt
-    └── resnet18_best.pt
+    └── mobilenetv3_large_best.pt
 ```
 
 ---
@@ -68,11 +69,21 @@ The application will open automatically in your browser.
 
 ## 🧠 Model Notes (Important)
 
+<<<<<<< HEAD
 - Both **MobileNetV3-Large** and **ResNet-18** use **ImageNet-pretrained backbones**
 - Only the **final classification layers** were fine-tuned on the seed dataset
 - This design ensures stable inference while keeping checkpoints lightweight
 
 > *Both MobileNetV3-Large and ResNet18 use ImageNet-pretrained backbones, while only the final classification layers were fine-tuned on the target dataset.*
+=======
+- The **MobileNetV3-Large** uses an **ImageNet-pretrained backbone**
+- Only the **final classification layer** was fine-tuned on the seed dataset
+- This design ensures stable inference while keeping the checkpoint lightweight
+
+**Academic statement you may use:**
+
+> *The MobileNetV3-Large model uses an ImageNet-pretrained backbone, while only the final classification layer was fine-tuned on the target seed dataset.*
+>>>>>>> 70614e7 (app_v2)
 
 ---
 
@@ -87,6 +98,23 @@ The application will open automatically in your browser.
 
 ---
 
+<<<<<<< HEAD
+=======
+## 🚀 Possible Extensions
+
+- Grad-CAM visual explanations
+- Top-3 predictions
+- Confidence donut / gauge charts
+- TR / Latin language toggle
+- Streamlit Cloud deployment
+
+---
+
+## 📜 Academic Note
+
+This application is the product of a scientific study conducted by Safa Balekoğlu, Fatma Çalışkan, Servet Çalışkan, Beyaz Başak Eskişehirli, Elif Kartal, and Zeki Özen. The authors are listed in alphabetical order by surname and then by first name. The study is currently under review in a scientific journal.
+
+>>>>>>> 70614e7 (app_v2)
 ## 📜 License
 
 This project is intended for **academic and educational use**.

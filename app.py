@@ -17,19 +17,55 @@ st.set_page_config(
 )
 
 st.title("🌳 Seed Species Classification")
-st.markdown(
-    "Upload a seed image and select a trained model "
-    "to **classify seed species**."
-)
+
+st.markdown("""
+In this application, the MobileNetV3-Large model was fine-tuned and evaluated using seed images belonging to the following four species:
+- Cercis siliquastrum
+- Ceratonia siliqua
+- Gleditsia triacanthos
+- Robinia pseudoacacia
+
+Therefore, users of this application should upload an image of a seed that belongs to one of these four species only.
+Please ensure that the uploaded image contains a single seed and that the seed is clearly visible in the image.
+
+Below, example images are provided to illustrate the expected input format.
+
+**Academic Note:** This application is the product of a scientific study conducted by Safa Balekoğlu, Fatma Çalışkan, Servet Çalışkan, Beyaz Başak Eskişehirli, Elif Kartal, and Zeki Özen. The authors are listed in alphabetical order by surname and then by first name. The study is currently under review in a scientific journal.
+""")
+
+# Example images
+st.subheader("📸 Example Images")
+col1, col2 = st.columns(2)
+with col1:
+    st.image("cercis_siliquastrum.jpg", caption="Cercis siliquastrum", width=200)
+    if st.button("Predict Cercis siliquastrum"):
+        st.session_state.example_image_path = "cercis_siliquastrum.jpg"
+        st.session_state.example_class = "Cercis siliquastrum"
+    
+    st.image("gleditsia_triacanthos.jpg", caption="Gleditsia triacanthos", width=200)
+    if st.button("Predict Gleditsia triacanthos"):
+        st.session_state.example_image_path = "gleditsia_triacanthos.jpg"
+        st.session_state.example_class = "Gleditsia triacanthos"
+
+with col2:
+    st.image("ceratonia_siliqua.jpg", caption="Ceratonia siliqua", width=200)
+    if st.button("Predict Ceratonia siliqua"):
+        st.session_state.example_image_path = "ceratonia_siliqua.jpg"
+        st.session_state.example_class = "Ceratonia siliqua"
+    
+    st.image("robin_pseudoacacia.jpg", caption="Robinia pseudoacacia", width=200)
+    if st.button("Predict Robinia pseudoacacia"):
+        st.session_state.example_image_path = "robin_pseudoacacia.jpg"
+        st.session_state.example_class = "Robinia pseudoacacia"
 
 # =================================================
 # Classes
 # =================================================
 CLASS_NAMES = [
-    "Akasya (Acacia)",
-    "Erguvan (Cercis siliquastrum)",
-    "Gladiçya (Gleditsia triacanthos)",
-    "Keçiboynuzu (Ceratonia siliqua)"
+    "Robinia pseudoacacia",
+    "Cercis siliquastrum",
+    "Gleditsia triacanthos",
+    "Ceratonia siliqua"
 ]
 NUM_CLASSES = len(CLASS_NAMES)
 
@@ -56,24 +92,14 @@ def build_mobilenet():
     )
     return model
 
-
-def build_resnet():
-    model = models.resnet18(weights=None)
-    model.fc = torch.nn.Linear(model.fc.in_features, NUM_CLASSES)
-    return model
-
 # =================================================
 # MODEL LOADER (FINAL & SAFE)
 # =================================================
 @st.cache_resource
-def load_model(model_name):
+def load_model():
 
-    if model_name == "MobileNetV3-Large":
-        model = build_mobilenet()
-        ckpt = torch.load("models/mobilenetv3_large_best.pt", map_location="cpu")
-    else:
-        model = build_resnet()
-        ckpt = torch.load("models/resnet18_best.pt", map_location="cpu")
+    model = build_mobilenet()
+    ckpt = torch.load("models/mobilenetv3_large_best.pt", map_location="cpu")
 
     # ---- state_dict ayıkla ----
     if isinstance(ckpt, dict):
@@ -93,37 +119,42 @@ def load_model(model_name):
     model.load_state_dict(state_dict, strict=False)
     model.eval()
 
-    st.sidebar.success("✔ Model fully loaded")
-
     return model
 
 # =================================================
-# Sidebar
+# Load Model
 # =================================================
-st.sidebar.header("⚙️ Model Selection")
-
-model_name = st.sidebar.selectbox(
-    "Choose a trained model",
-    ["MobileNetV3-Large", "ResNet18"]
-)
-
-model = load_model(model_name)
+model = load_model()
 
 # =================================================
 # Image upload
 # =================================================
+st.markdown("Upload a seed image to **classify seed species**.")
 uploaded_file = st.file_uploader(
     "📤 Upload a seed image",
     type=["jpg", "jpeg", "png"]
 )
 
+# Initialize session state for examples
+if 'example_image_path' not in st.session_state:
+    st.session_state.example_image_path = None
+    st.session_state.example_class = None
+
 # =================================================
 # Prediction
 # =================================================
-if uploaded_file is not None:
+if uploaded_file is not None or st.session_state.example_image_path is not None:
 
-    image = Image.open(uploaded_file).convert("RGB")
-    st.image(image, caption="Uploaded Image", width="stretch")
+    if uploaded_file is not None:
+        image = Image.open(uploaded_file).convert("RGB")
+        st.image(image, caption="Uploaded Image", width="stretch")
+    else:
+        image = Image.open(st.session_state.example_image_path).convert("RGB")
+        st.image(image, caption=f"Example Image: {st.session_state.example_class}", width="stretch")
+        if st.button("Close Example"):
+            st.session_state.example_image_path = None
+            st.session_state.example_class = None
+            st.rerun()
 
     x = transform(image).unsqueeze(0)
 
