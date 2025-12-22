@@ -179,6 +179,9 @@ if uploaded_file is not None or st.session_state.example_image_path is not None:
     ax.barh(df["Class"], df["Probability (%)"])
     ax.set_xlim(0, 100)
 
+    # Make y-tick labels italic
+    ax.set_yticklabels([name.replace('*', '') for name in df["Class"]], fontstyle='italic')
+
     for i, v in enumerate(df["Probability (%)"]):
         ax.text(v + 1, i, f"{v:.2f}%", va="center")
 
