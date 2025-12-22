@@ -20,10 +20,10 @@ st.title("🌳 Seed Species Classification")
 
 st.markdown("""
 In this application, the MobileNetV3-Large model was fine-tuned and evaluated using seed images belonging to the following four species:
-- Cercis siliquastrum
-- Ceratonia siliqua
-- Gleditsia triacanthos
-- Robinia pseudoacacia
+- *Cercis siliquastrum*
+- *Ceratonia siliqua*
+- *Gleditsia triacanthos*
+- *Robinia pseudoacacia*
 
 Therefore, users of this application should upload an image of a seed that belongs to one of these four species only.
 Please ensure that the uploaded image contains a single seed and that the seed is clearly visible in the image.
@@ -37,23 +37,23 @@ Below, example images are provided to illustrate the expected input format.
 st.subheader("📸 Example Images")
 col1, col2 = st.columns(2)
 with col1:
-    st.image("cercis_siliquastrum.jpg", caption="Cercis siliquastrum", width=200)
+    st.image("cercis_siliquastrum.jpg", caption="*Cercis siliquastrum*", width=200)
     if st.button("Predict Cercis siliquastrum"):
         st.session_state.example_image_path = "cercis_siliquastrum.jpg"
         st.session_state.example_class = "Cercis siliquastrum"
     
-    st.image("gleditsia_triacanthos.jpg", caption="Gleditsia triacanthos", width=200)
+    st.image("gleditsia_triacanthos.jpg", caption="*Gleditsia triacanthos*", width=200)
     if st.button("Predict Gleditsia triacanthos"):
         st.session_state.example_image_path = "gleditsia_triacanthos.jpg"
         st.session_state.example_class = "Gleditsia triacanthos"
 
 with col2:
-    st.image("ceratonia_siliqua.jpg", caption="Ceratonia siliqua", width=200)
+    st.image("ceratonia_siliqua.jpg", caption="*Ceratonia siliqua*", width=200)
     if st.button("Predict Ceratonia siliqua"):
         st.session_state.example_image_path = "ceratonia_siliqua.jpg"
         st.session_state.example_class = "Ceratonia siliqua"
     
-    st.image("robin_pseudoacacia.jpg", caption="Robinia pseudoacacia", width=200)
+    st.image("robin_pseudoacacia.jpg", caption="*Robinia pseudoacacia*", width=200)
     if st.button("Predict Robinia pseudoacacia"):
         st.session_state.example_image_path = "robin_pseudoacacia.jpg"
         st.session_state.example_class = "Robinia pseudoacacia"
@@ -150,7 +150,7 @@ if uploaded_file is not None or st.session_state.example_image_path is not None:
         st.image(image, caption="Uploaded Image", width="stretch")
     else:
         image = Image.open(st.session_state.example_image_path).convert("RGB")
-        st.image(image, caption=f"Example Image: {st.session_state.example_class}", width="stretch")
+        st.image(image, caption=f"Example Image: *{st.session_state.example_class}*", width="stretch")
         if st.button("Close Example"):
             st.session_state.example_image_path = None
             st.session_state.example_class = None
@@ -166,12 +166,12 @@ if uploaded_file is not None or st.session_state.example_image_path is not None:
 
     st.markdown("---")
     st.subheader("✅ Prediction Result")
-    st.success(f"**Predicted Species:** {CLASS_NAMES[pred_idx]}")
+    st.success(f"**Predicted Species:** *{CLASS_NAMES[pred_idx]}*")
 
     st.subheader("📊 Class Probabilities")
 
     df = pd.DataFrame({
-        "Class": CLASS_NAMES,
+        "Class": [f"*{name}*" for name in CLASS_NAMES],
         "Probability (%)": probs * 100
     })
 
