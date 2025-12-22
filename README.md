@@ -12,10 +12,10 @@ Users can upload an image and obtain:
 
 ## 🌲 Supported Seed Species (Latin)
 
-- **Cercis siliquastrum**
-- **Ceratonia siliqua**
-- **Gleditsia triacanthos**
-- **Robinia pseudoacacia**
+- *Cercis siliquastrum*
+- *Ceratonia siliqua*
+- *Gleditsia triacanthos*
+- *Robinia pseudoacacia*
 
 ---
 
