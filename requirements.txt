@@ -5,7 +5,7 @@ torchvision>=0.17
 timm>=1.0
 safetensors
 huggingface_hub
-rembg>=2.0.50
+rembg>=2.0.66
 onnxruntime
 opencv-python-headless
 numpy

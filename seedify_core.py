@@ -150,6 +150,33 @@ def _norm(x):
     return (x - MEAN) / STD
 
 
+# ---------------------------------------------------------------- ISNet session
+def make_isnet_session(threads=2):
+    """ISNet ('isnet-general-use') rembg session with memory-light ONNX Runtime options.
+
+    The session class is instantiated directly because rembg.new_session() changed its signature
+    between versions (2.0.66-2.0.75 build their own SessionOptions and reject a `sess_opts` argument).
+    The model file and its pre/post-processing are identical across these versions.
+    """
+    import onnxruntime as ort
+    so = ort.SessionOptions()
+    so.intra_op_num_threads = threads
+    so.inter_op_num_threads = 1
+    so.enable_cpu_mem_arena = False   # ~0.7 GB lower peak memory, identical masks
+    so.enable_mem_pattern = False
+    try:
+        from rembg.sessions import sessions_class
+        cls = next(sc for sc in sessions_class if sc.name() == "isnet-general-use")
+        return cls("isnet-general-use", so)
+    except Exception:
+        from rembg import new_session
+        try:
+            return new_session("isnet-general-use", sess_opts=so)
+        except TypeError:
+            os.environ.setdefault("OMP_NUM_THREADS", str(threads))
+            return new_session("isnet-general-use")
+
+
 # ---------------------------------------------------------------- predictor
 class SeedifyPredictor:
     def __init__(self, weights, ood_dir=None, ood_level="default", dinov2_file=None, threads=2):
@@ -162,14 +189,7 @@ class SeedifyPredictor:
         m.load_state_dict(ck["state_dict"])
         self.model = m.eval()
 
-        import onnxruntime as ort
-        from rembg import new_session
-        so = ort.SessionOptions()
-        so.intra_op_num_threads = threads
-        so.inter_op_num_threads = 1
-        so.enable_cpu_mem_arena = False   # ~0.7 GB lower peak memory, identical masks
-        so.enable_mem_pattern = False
-        self.session = new_session("isnet-general-use", sess_opts=so)
+        self.session = make_isnet_session(threads)
 
         self.ood = None
         self.ood_error = None
