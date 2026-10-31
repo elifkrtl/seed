@@ -1,0 +1,49 @@
+{
+  "method": "deep k-NN OOD (Sun et al., 2022): cosine distance to the k-th nearest neighbour, L2-normalised features",
+  "backbone": "dinov2",
+  "backbone_id": "vit_small_patch14_dinov2.lvd142m",
+  "img_size": 224,
+  "k": 5,
+  "bank_scales": [
+    1.0,
+    0.85,
+    0.7
+  ],
+  "bank_size": 3600,
+  "threshold_default": 0.16962604224681854,
+  "threshold_default_meaning": "95% of known-species images (out-of-fold) accepted",
+  "threshold_lenient": 0.2016097801923752,
+  "threshold_lenient_meaning": "99% of known-species images (out-of-fold) accepted",
+  "loso": [
+    {
+      "unseen": "AKASYA",
+      "auroc": 0.9923814814814815,
+      "rejected_tpr95": 0.9633333333333334,
+      "rejected_tpr99": 0.8333333333333334
+    },
+    {
+      "unseen": "ERGUVAN",
+      "auroc": 0.9340481481481482,
+      "rejected_tpr95": 0.61,
+      "rejected_tpr99": 0.17
+    },
+    {
+      "unseen": "GLADİÇYA",
+      "auroc": 0.9297259259259258,
+      "rejected_tpr95": 0.6033333333333334,
+      "rejected_tpr99": 0.30333333333333334
+    },
+    {
+      "unseen": "KEÇİBOYNUZU",
+      "auroc": 0.9357592592592593,
+      "rejected_tpr95": 0.65,
+      "rejected_tpr99": 0.44666666666666666
+    }
+  ],
+  "loso_mean_auroc": 0.9479787037037037,
+  "loso_mean_rejected_default": 0.7066666666666667,
+  "loso_mean_rejected_lenient": 0.43833333333333335,
+  "s21_known_accepted_default": 0.8587570621468926,
+  "s21_known_accepted_lenient": 0.9265536723163842,
+  "note": "Rejection rates are a proxy (one of the four species treated as unseen). Validate with real non-target Fabaceae seed photos."
+}
